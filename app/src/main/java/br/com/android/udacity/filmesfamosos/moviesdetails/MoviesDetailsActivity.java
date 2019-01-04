@@ -1,6 +1,9 @@
 package br.com.android.udacity.filmesfamosos.moviesdetails;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,21 +13,26 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
+import br.com.android.udacity.filmesfamosos.favorite.FavoriteView;
 import br.com.android.udacity.filmesfamosos.models.Result;
-import br.com.android.udacity.filmesfamosos.room.AppDatabase;
 import br.com.android.udacity.filmesfamosos.staticvaluesapi.DataAPI;
+import br.com.android.udacity.filmesfamosos.viewmodel.MoviesViewModel;
 
 public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDetailsView {
 
     Boolean isCheckedFavorite = true;
     private static final String LOG_TAG = MoviesDetailsActivity.class.getSimpleName();
     private Result itemMovie;
-    private AppDatabase mDb;
+    private String pathImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +46,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView titleToolbar = findViewById(R.id.title_toolbar);
         titleToolbar.setText(R.string.details_movies_title);
-
         checkValueIntent();
-        mDb = AppDatabase.getsInstance(getApplicationContext());
     }
 
     @Override
@@ -57,12 +63,12 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     public void setUpValuesDetailsMovies(Result itemMovie) {
 
         ImageView mImageMovie = findViewById(R.id.image_movie);
-        TextView mTitle = findViewById(R.id.title_movie);
+        TextView mTitle = findViewById(R.id.title_movie_favorite);
         TextView mOverview = findViewById(R.id.overview);
         TextView mDateRelease = findViewById(R.id.date_release);
         RatingBar mVoteAverage = findViewById(R.id.vote_average);
 
-        String pathImage = itemMovie.getPosterPath();
+        pathImage = itemMovie.getPosterPath();
         configShowImage(pathImage, mImageMovie);
         mTitle.setText(itemMovie.getTitle());
         mOverview.setText(itemMovie.getOverview());
@@ -75,6 +81,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         try {
             if (!pathImage.isEmpty()) {
                 Glide.with(this).load(DataAPI.URL_BASE_IMAGE + pathImage).into(imageMovie);
+
             }
         } catch (Exception e) {
             Log.e(LOG_TAG, "--ERROR-- " + e.getMessage());
@@ -102,6 +109,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
             case R.id.action_favorite:
                 supportInvalidateOptionsMenu();
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -115,19 +123,17 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         } else{
             menu.getItem(0).setIcon(R.drawable.ic_favorite_selected);
             isCheckedFavorite = true;
-            saveImageLocal(itemMovie);
-            //TODO SAVE FAVORITE MOVIE ROOM
+            saveFavorite();
+
         }
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void saveImageLocal(Result itemMovie) {
-        String image = DataAPI.URL_BASE_IMAGE + itemMovie.getPosterPath();
-        FavoriteModelMovie newFavoriteMovie = new FavoriteModelMovie(itemMovie.getTitle(),
-                itemMovie.getOverview(), itemMovie.getReleaseDate(), itemMovie.getVoteAverage());
-
-       mDb.favoriteDao().insertFavoriteMovie(newFavoriteMovie);
+    @Override
+    public void saveFavorite() {
+        Toast.makeText(MoviesDetailsActivity.this, "Clicado", Toast.LENGTH_LONG).show();
     }
+
 }
 
 

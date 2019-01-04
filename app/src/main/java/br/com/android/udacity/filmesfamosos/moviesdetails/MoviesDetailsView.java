@@ -9,4 +9,5 @@ public interface MoviesDetailsView {
     void setUpValuesDetailsMovies(Result itemMovie);
     void configShowImage(String pathImage, ImageView imageMovie);
     String configSubstringDate(String date);
+    void saveFavorite();
 }

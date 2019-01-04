@@ -20,4 +20,9 @@ public interface FavoriteDao {
 
     @Delete
     void deleteFavoriteMovie(FavoriteModelMovie favoriteMovie);
+
+    @Query("DELETE FROM favorite")
+    void deleteAll();
+
+
 }

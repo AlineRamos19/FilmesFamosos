@@ -54,7 +54,7 @@
                     tools:src="@drawable/tools_image_details" />
 
                 <TextView
-                    android:id="@+id/title_movie"
+                    android:id="@+id/title_movie_favorite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/default_medium"
@@ -100,7 +100,7 @@
                     android:textSize="@dimen/medium_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_movie"
+                    app:layout_constraintTop_toBottomOf="@id/title_movie_favorite"
                     tools:text="Eddie Brock  é um jornalista que investiga o misterioso trabalho de um cientista, suspeito de utilizar cobaias humanas em experiencias mortais. Quando ele entra em contato com um simbionte alienígena, Eddie torna-se Venom, uma máquina de matar incontrolável, que nem ele pode conter." />
 
                 <RatingBar

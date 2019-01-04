@@ -22,26 +22,27 @@ android {
     }
 }
 
-    ext {
-        glideVersion = '4.8.0'
-        appCompatVersion = '28.0.0'
-        constraintLayoutVersion = '1.1.3'
-        supportDesignVersion = '28.0.0'
-        supportCardViewVersion = '28.0.0'
-        supportRecyclerViewVersion = '28.0.0'
-        retrofitVersion = '2.3.0'
-        retrofitConverterGsonVersion = '2.3.0'
-        junitLibVersion = '4.12'
-        testRunnerVersion = '1.0.2'
-        testEspressoVersion = '3.0.2'
-        roomVersion = "1.1.1"
-        lifecycleVersion = "1.1.1"
+ext {
+    glideVersion = '4.8.0'
+    appCompatVersion = '28.0.0'
+    constraintLayoutVersion = '1.1.3'
+    supportDesignVersion = '28.0.0'
+    supportCardViewVersion = '28.0.0'
+    supportRecyclerViewVersion = '28.0.0'
+    retrofitVersion = '2.3.0'
+    retrofitConverterGsonVersion = '2.3.0'
+    junitLibVersion = '4.12'
+    testRunnerVersion = '1.0.2'
+    testEspressoVersion = '3.0.2'
+    roomVersion = "1.1.1"
+    lifecycleVersion = "1.1.1"
 }
 
 dependencies {
 
     //Glide upload image
     implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

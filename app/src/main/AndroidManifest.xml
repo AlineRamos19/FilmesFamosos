@@ -22,13 +22,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".moviesdetails.MoviesDetailsActivity"
+        <activity
+            android:name=".moviesdetails.MoviesDetailsActivity"
             android:parentActivityName=".allmovies.AllMoviesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".allmovies.AllMoviesActivity"/>
+                android:value=".allmovies.AllMoviesActivity" />
+        </activity>
+        <activity android:name=".favorite.FavoriteMovie"
+            android:parentActivityName=".moviesdetails.MoviesDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".moviesdetails.MoviesDetailsActivity"/>
 
         </activity>
     </application>
-
 </manifest>

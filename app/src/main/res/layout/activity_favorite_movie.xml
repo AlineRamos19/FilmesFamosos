@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".favorite.FavoriteMovie">
+
+    <include layout="@layout/toolbar_include"
+        android:id="@+id/toolbar_favorite_movies"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_favorite"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_favorite_movies"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="@dimen/medium_margin">
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.constraint.ConstraintLayout>
