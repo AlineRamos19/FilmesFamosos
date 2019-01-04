@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Filmes Famosos</string>
+    <string name="content_description_icon">Icon popcorn</string>
+    <string name="dialog_try_again">Tentar novamente</string>
+    <string name="error_server">Estamos com problemas ao acessar nosso serviço.</string>
+    <string name="error_internet_off">Parece que seu dispositivo está sem acesso a internet. Por favor, verifique sua conexão e tente novamente!</string>
+    <string name="btn_order_by">Ordenar</string>
+    <string name="warning_empty_list_movie">Erro ao carregar a lista de filmes, tente novamente mais tarde.</string>
+    <string name="label_up_coming">Lançamentos</string>
+    <string name="top_rated">Melhor classificação</string>
+    <string name="most_popular">Mais popular</string>
+    <string name="release_movie">Lançamento </string>
+    <string name="content_description_movie">Image movie</string>
+    <string name="details_movies_title">Detalhes do filme</string>
+    <string name="loading_label">Carregando...</string>
+    <string name="label_favorite">Favorito</string>
+
+</resources>

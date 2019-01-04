@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context="br.com.android.udacity.filmesfamosos.moviesdetails.MoviesDetailsActivity">
+
+    <include
+        android:id="@+id/toolbar_details_movies"
+        layout="@layout/toolbar_include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/minimum_margin_six"
+        android:layout_marginBottom="@dimen/big_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_details_movies"
+        card_view:cardBackgroundColor="@color/background_card_view"
+        card_view:cardCornerRadius="@dimen/minimum_margin_six">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/big_margin"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_movie"
+                    android:layout_width="150dp"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:contentDescription="@string/content_description_movie"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/tools_image_details" />
+
+                <TextView
+                    android:id="@+id/title_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_medium"
+                    android:layout_marginStart="@dimen/default_medium"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:fontFamily="sans-serif-light"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/medium_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_movie"
+                    tools:text="Venom" />
+
+                <TextView
+                    android:id="@+id/date_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/medium_margin"
+                    android:layout_marginStart="@dimen/minimum_margin_six"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/overview"
+                    tools:text="2018" />
+
+                <TextView
+                    android:id="@+id/overview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/minimum_margin_six"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="start"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/medium_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_movie"
+                    tools:text="Eddie Brock  é um jornalista que investiga o misterioso trabalho de um cientista, suspeito de utilizar cobaias humanas em experiencias mortais. Quando ele entra em contato com um simbionte alienígena, Eddie torna-se Venom, uma máquina de matar incontrolável, que nem ele pode conter." />
+
+                <RatingBar
+                    android:id="@+id/vote_average"
+                    style="@style/RatingBar"
+                    android:layout_width="362dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="@dimen/minimum_margin_six"
+                    android:isIndicator="true"
+                    android:max="10"
+                    android:numStars="10"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:stepSize="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/date_release" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+    </android.support.v7.widget.CardView>
+
+
+</android.support.constraint.ConstraintLayout>

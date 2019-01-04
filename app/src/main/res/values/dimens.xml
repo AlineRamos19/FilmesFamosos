@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="minimum_margin_six">6dp</dimen>
+    <dimen name="medium_margin_eight">8dp</dimen>
+    <dimen name="small_padding">18dp</dimen>
+    <dimen name="big_margin">16dp</dimen>
+    <dimen name="medium_text">16sp</dimen>
+    <dimen name="medium_margin">12dp</dimen>
+    <dimen name="default_medium">24dp</dimen>
+    <dimen name="larger_margin">72dp</dimen>
+    <dimen name="default_medium_text_size">24sp</dimen>
+    <dimen name="large_text">32sp</dimen>
+    <dimen name="medium_size">22sp</dimen>
+
+
+</resources>
