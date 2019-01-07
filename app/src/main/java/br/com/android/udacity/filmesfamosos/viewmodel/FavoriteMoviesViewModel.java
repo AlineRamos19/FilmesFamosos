@@ -8,12 +8,12 @@ import java.util.List;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.repository.MoviesRepository;
 
-public class MoviesViewModel extends AndroidViewModel {
+public class FavoriteMoviesViewModel extends AndroidViewModel {
 
     private MoviesRepository moviesRepository;
     private LiveData<List<FavoriteModelMovie>> moviesFavorite ;
 
-    public MoviesViewModel(@NonNull Application application) {
+    public FavoriteMoviesViewModel(@NonNull Application application) {
         super(application);
         moviesRepository = new MoviesRepository(application);
         moviesFavorite = moviesRepository.getmAllFavoriteMovies();
@@ -25,6 +25,10 @@ public class MoviesViewModel extends AndroidViewModel {
 
      public void insert(FavoriteModelMovie favoriteModelMovie){
         moviesRepository.insert(favoriteModelMovie);
+     }
+
+     public void delete(int id){
+         moviesRepository.deleteFavorite(id);
      }
 
 }

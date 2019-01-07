@@ -14,12 +14,13 @@ import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.favorite.adapter.MovieFavoriteAdapter;
-import br.com.android.udacity.filmesfamosos.viewmodel.MoviesViewModel;
+import br.com.android.udacity.filmesfamosos.viewmodel.FavoriteMoviesViewModel;
 
-public class FavoriteMovie extends AppCompatActivity implements FavoriteView {
+public class FavoriteMovieActivity extends AppCompatActivity implements FavoriteView {
 
-    private MoviesViewModel mViewModel;
+    private FavoriteMoviesViewModel mViewModel;
     private MovieFavoriteAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,12 @@ public class FavoriteMovie extends AppCompatActivity implements FavoriteView {
         configRecycler();
         adapter = new MovieFavoriteAdapter(this);
 
-        mViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel.class);
         mViewModel.getMoviesFavorite().observe(this, new Observer<List<FavoriteModelMovie>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteModelMovie> favoriteModelMovies) {
                 adapter.setListMovie(favoriteModelMovies);
+                recyclerView.setAdapter(adapter);
             }
         });
 
@@ -49,8 +51,7 @@ public class FavoriteMovie extends AppCompatActivity implements FavoriteView {
 
     @Override
     public void configRecycler() {
-        RecyclerView recyclerView = findViewById(R.id.recycler_favorite);
-        recyclerView.setAdapter(adapter);
+        recyclerView = findViewById(R.id.recycler_favorite);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     }
 }

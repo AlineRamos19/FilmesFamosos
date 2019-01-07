@@ -2,10 +2,10 @@ package br.com.android.udacity.filmesfamosos.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.os.AsyncTask;
 
 import java.util.List;
+
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.room.AppDatabase;
 import br.com.android.udacity.filmesfamosos.room.FavoriteDao;
@@ -29,6 +29,10 @@ public class MoviesRepository  {
         new insertAsyncTask(mFavoriteDao).execute(favoriteModelMovie);
     }
 
+    public void deleteFavorite(int id){
+        new deleteAsyncTask(mFavoriteDao).execute(id);
+    }
+
     private static class insertAsyncTask extends AsyncTask<FavoriteModelMovie, Void, Void> {
         private FavoriteDao mAsyncTaskDao;
 
@@ -39,6 +43,20 @@ public class MoviesRepository  {
         @Override
         protected Void doInBackground(FavoriteModelMovie... favoriteModelMovies) {
              mAsyncTaskDao.insertFavoriteMovie(favoriteModelMovies[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Integer,Void, Void>{
+
+        private FavoriteDao mFavoriteDao;
+        public deleteAsyncTask(FavoriteDao favoriteDao) {
+            mFavoriteDao =  favoriteDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            mFavoriteDao.deleteFavoriteMovie(integers[0]);
             return null;
         }
     }

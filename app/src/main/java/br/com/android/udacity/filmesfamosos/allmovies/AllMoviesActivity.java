@@ -1,6 +1,7 @@
 package br.com.android.udacity.filmesfamosos.allmovies;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.adapter.MoviesAdapter;
+import br.com.android.udacity.filmesfamosos.favorite.FavoriteMovieActivity;
 import br.com.android.udacity.filmesfamosos.models.Result;
 
 public class AllMoviesActivity extends AppCompatActivity implements AllMoviesView {
@@ -134,6 +136,14 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
                 if(mPresenter.statusNetworkInfo(this, this)){
                     showProgressBar();
                    mPresenter.requestMostPopular(this);
+                }else{
+                    showAlert(getString(R.string.error_internet_off));
+                }
+                return true;
+
+            case R.id.action_favorite:
+                if(mPresenter.statusNetworkInfo(this, this)){
+                    startActivity(new Intent(AllMoviesActivity.this, FavoriteMovieActivity.class));
                 }else{
                     showAlert(getString(R.string.error_internet_off));
                 }
