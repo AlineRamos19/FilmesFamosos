@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
-import br.com.android.udacity.filmesfamosos.adapter.MoviesAdapter;
+import br.com.android.udacity.filmesfamosos.allmovies.adapter.MoviesAdapter;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteMovieActivity;
 import br.com.android.udacity.filmesfamosos.models.Result;
 

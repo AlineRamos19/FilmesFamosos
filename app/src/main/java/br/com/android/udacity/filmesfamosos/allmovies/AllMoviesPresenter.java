@@ -19,7 +19,7 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
     private static final String LOG_TAG = AllMoviesPresenter.class.getName();
 
     @Override
-    public boolean statusNetworkInfo(Context context, AllMoviesView view) {
+    public boolean statusNetworkInfo(Context context,    AllMoviesView view) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);

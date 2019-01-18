@@ -11,4 +11,5 @@ public interface MoviesDetailsView {
     String configSubstringDate(String date);
     void getImageSaveNewFavorite();
     void saveFavoriteRepository(Bitmap bitmap);
+    void configToolbar();
 }

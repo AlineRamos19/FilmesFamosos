@@ -51,6 +51,16 @@ public class Result  implements Serializable{
     @Expose
     private String releaseDate;
 
+    private Boolean isFavorite = false;
+
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
+
     public Integer getVoteCount() {
         return voteCount;
     }

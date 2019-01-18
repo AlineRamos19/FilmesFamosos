@@ -1,4 +1,4 @@
-package br.com.android.udacity.filmesfamosos.adapter;
+package br.com.android.udacity.filmesfamosos.allmovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;

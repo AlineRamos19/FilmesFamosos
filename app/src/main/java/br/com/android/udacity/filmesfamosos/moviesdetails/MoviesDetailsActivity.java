@@ -32,17 +32,26 @@ import br.com.android.udacity.filmesfamosos.viewmodel.FavoriteMoviesViewModel;
 
 public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDetailsView {
 
-    Boolean isCheckedFavorite = true;
+    Boolean isCheckedFavorite;
     private static final String LOG_TAG = MoviesDetailsActivity.class.getSimpleName();
     private Result itemMovie;
     private FavoriteMoviesViewModel mFavoriteMoviesViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_details);
 
+        configToolbar();
+        checkValueIntent();
+
+        mFavoriteMoviesViewModel = ViewModelProviders.of(this)
+                .get(FavoriteMoviesViewModel.class);
+
+    }
+
+    @Override
+    public void configToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_details_movies);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,16 +59,15 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView titleToolbar = findViewById(R.id.title_toolbar);
         titleToolbar.setText(R.string.details_movies_title);
-        checkValueIntent();
-
-        mFavoriteMoviesViewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel.class);
     }
+
 
     @Override
     public void checkValueIntent() {
         try {
             itemMovie = (Result) getIntent().getSerializableExtra("item_movie");
             setUpValuesDetailsMovies(itemMovie);
+            isCheckedFavorite = itemMovie.getFavorite();
         } catch (Exception e) {
             Log.e(LOG_TAG, "--ERROR-- " + e.getMessage());
         }
@@ -80,7 +88,6 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         mDateRelease.setText(configSubstringDate(itemMovie.getReleaseDate()));
         mVoteAverage.setRating(Float.parseFloat(String.valueOf(itemMovie.getVoteAverage())));
     }
-
 
     @Override
     public String configSubstringDate(String date) {
@@ -110,7 +117,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (isCheckedFavorite) {
+       if (isCheckedFavorite) {
             menu.getItem(0).setIcon(R.drawable.ic_favorite);
             isCheckedFavorite = false;
             mFavoriteMoviesViewModel.delete(itemMovie.getId());
@@ -120,8 +127,11 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
             getImageSaveNewFavorite();
 
         }
+
         return super.onPrepareOptionsMenu(menu);
     }
+
+
 
     @Override
     public void getImageSaveNewFavorite() {
@@ -210,6 +220,8 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         mFavoriteMoviesViewModel.insert(favoriteModelMovie);
 
     }
+
+
 
 }
 
