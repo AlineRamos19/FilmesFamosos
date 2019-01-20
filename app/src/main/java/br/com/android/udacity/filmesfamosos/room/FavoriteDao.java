@@ -4,6 +4,7 @@ package br.com.android.udacity.filmesfamosos.room;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface FavoriteDao {
     @Query("SELECT * FROM favorite")
     LiveData<List<FavoriteModelMovie>> loadAllFavorite();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavoriteMovie(FavoriteModelMovie favoriteMovie);
 
     @Query("DELETE FROM favorite WHERE id = :id")
@@ -25,5 +26,7 @@ public interface FavoriteDao {
     @Query("DELETE FROM favorite")
     void deleteAll();
 
+    @Query("SELECT * FROM favorite WHERE title = :title")
+    FavoriteModelMovie getMovieById(String title);
 
 }

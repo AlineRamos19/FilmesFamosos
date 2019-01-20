@@ -31,4 +31,8 @@ public class FavoriteMoviesViewModel extends AndroidViewModel {
          moviesRepository.deleteFavorite(id);
      }
 
+     public FavoriteModelMovie getMovieById(String title){
+        return moviesRepository.getMovieById(title);
+     }
+
 }

@@ -34,8 +34,9 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
 
     Boolean isCheckedFavorite;
     private static final String LOG_TAG = MoviesDetailsActivity.class.getSimpleName();
-    private Result itemMovie;
+    private Result mItemMovie;
     private FavoriteMoviesViewModel mFavoriteMoviesViewModel;
+    private int mMovieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,8 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     @Override
     public void checkValueIntent() {
         try {
-            itemMovie = (Result) getIntent().getSerializableExtra("item_movie");
-            setUpValuesDetailsMovies(itemMovie);
-            isCheckedFavorite = itemMovie.getFavorite();
+            mItemMovie = (Result) getIntent().getSerializableExtra("item_movie");
+            setUpValuesDetailsMovies(mItemMovie);
         } catch (Exception e) {
             Log.e(LOG_TAG, "--ERROR-- " + e.getMessage());
         }
@@ -81,12 +81,14 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         TextView mOverview = findViewById(R.id.overview);
         TextView mDateRelease = findViewById(R.id.date_release);
         RatingBar mVoteAverage = findViewById(R.id.vote_average);
+        mMovieId = itemMovie.getId();
 
         Glide.with(this).load(DataAPI.URL_BASE_IMAGE + itemMovie.getPosterPath()).into(mImageMovie);
         mTitle.setText(itemMovie.getTitle());
         mOverview.setText(itemMovie.getOverview());
         mDateRelease.setText(configSubstringDate(itemMovie.getReleaseDate()));
         mVoteAverage.setRating(Float.parseFloat(String.valueOf(itemMovie.getVoteAverage())));
+        isCheckedFavorite = itemMovie.getFavorite();
     }
 
     @Override
@@ -108,37 +110,38 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
                 return true;
 
             case R.id.action_favorite:
-                supportInvalidateOptionsMenu();
-                return true;
-
+                item.setChecked(!item.isChecked());
+                if (item.isChecked()) {
+                    getImageSaveNewFavorite();
+                    item.setIcon(R.drawable.ic_favorite_selected);
+                    return true;
+                } else {
+                    mFavoriteMoviesViewModel.delete(mItemMovie.getId());
+                    item.setIcon(R.drawable.ic_favorite);
+                    return true;
+                }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-       if (isCheckedFavorite) {
-            menu.getItem(0).setIcon(R.drawable.ic_favorite);
-            isCheckedFavorite = false;
-            mFavoriteMoviesViewModel.delete(itemMovie.getId());
-        } else {
-            menu.getItem(0).setIcon(R.drawable.ic_favorite_selected);
-            isCheckedFavorite = true;
-            getImageSaveNewFavorite();
 
+        MenuItem menuItem = menu.findItem(R.id.action_favorite);
+        if (mFavoriteMoviesViewModel.getMovieById(mItemMovie.getTitle()) != null) {
+            menuItem.setChecked(true);
+            menuItem.setIcon(R.drawable.ic_favorite_selected);
+            return true;
         }
-
         return super.onPrepareOptionsMenu(menu);
     }
-
-
 
     @Override
     public void getImageSaveNewFavorite() {
 
         Glide.with(MoviesDetailsActivity.this)
                 .asBitmap()
-                .load(DataAPI.URL_BASE_IMAGE + itemMovie.getPosterPath())
+                .load(DataAPI.URL_BASE_IMAGE + mItemMovie.getPosterPath())
                 .into(new Target<Bitmap>() {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
@@ -202,7 +205,6 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     }
 
 
-
     @Override
     public void saveFavoriteRepository(Bitmap bitmap) {
         ByteArrayOutputStream byteImage = new ByteArrayOutputStream();
@@ -212,17 +214,14 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         FavoriteModelMovie favoriteModelMovie =
                 new FavoriteModelMovie(
                         bitmapByte,
-                        itemMovie.getTitle(),
-                        itemMovie.getOverview(),
-                        itemMovie.getReleaseDate(),
-                        itemMovie.getVoteAverage());
+                        mItemMovie.getTitle(),
+                        mItemMovie.getOverview(),
+                        mItemMovie.getReleaseDate(),
+                        mItemMovie.getVoteAverage());
 
         mFavoriteMoviesViewModel.insert(favoriteModelMovie);
 
     }
-
-
-
 }
 
 

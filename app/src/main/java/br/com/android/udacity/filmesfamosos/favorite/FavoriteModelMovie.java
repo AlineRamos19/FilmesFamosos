@@ -4,7 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 @Entity(tableName = "favorite")
 public class FavoriteModelMovie {
@@ -27,6 +26,7 @@ public class FavoriteModelMovie {
         this.description = description;
         this.dateRelease = dateRelease;
         this.voteAverage = voteAverage;
+
     }
 
     public FavoriteModelMovie(int id, byte[] image, String title,
@@ -38,6 +38,7 @@ public class FavoriteModelMovie {
         this.dateRelease = dateRelease;
         this.voteAverage = voteAverage;
     }
+
 
     public int getId() {
         return id;

@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 
-@Database(entities = {FavoriteModelMovie.class}, version = 1, exportSchema = false)
+@Database(entities = {FavoriteModelMovie.class}, version = 2 , exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

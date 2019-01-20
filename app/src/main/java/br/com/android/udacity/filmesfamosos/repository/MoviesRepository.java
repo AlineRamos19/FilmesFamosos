@@ -3,9 +3,7 @@ package br.com.android.udacity.filmesfamosos.repository;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
-
 import java.util.List;
-
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.room.AppDatabase;
 import br.com.android.udacity.filmesfamosos.room.FavoriteDao;
@@ -14,6 +12,7 @@ public class MoviesRepository  {
 
     private FavoriteDao mFavoriteDao;
     private LiveData<List<FavoriteModelMovie>> mAllFavorite;
+     private FavoriteModelMovie favoriteMovie;
 
     public MoviesRepository(Application application){
         AppDatabase mDb = AppDatabase.getsInstance(application);
@@ -31,6 +30,12 @@ public class MoviesRepository  {
 
     public void deleteFavorite(int id){
         new deleteAsyncTask(mFavoriteDao).execute(id);
+    }
+
+    public FavoriteModelMovie getMovieById(String title){
+          new getIdMovieAsyncTask(mFavoriteDao).execute(title);
+          return favoriteMovie;
+
     }
 
     private static class insertAsyncTask extends AsyncTask<FavoriteModelMovie, Void, Void> {
@@ -60,4 +65,19 @@ public class MoviesRepository  {
             return null;
         }
     }
+
+    private  class getIdMovieAsyncTask extends AsyncTask<String, Void, FavoriteModelMovie> {
+        private FavoriteDao mFavoriteDao;
+
+        public getIdMovieAsyncTask(FavoriteDao favoriteDao) {
+            mFavoriteDao = favoriteDao;
+        }
+
+        @Override
+        protected FavoriteModelMovie doInBackground(String... strings) {
+          MoviesRepository.this.favoriteMovie = mFavoriteDao.getMovieById(strings[0]);
+          return favoriteMovie;
+        }
+    }
+
 }
