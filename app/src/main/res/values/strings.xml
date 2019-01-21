@@ -16,5 +16,6 @@
     <string name="label_favorite">Favorito</string>
     <string name="toolbar_favorite">Favoritos</string>
     <string name="content_description_favorite_movie">Image for favorite movie</string>
+    <string name="label_trailer">Trailer</string>
 
 </resources>

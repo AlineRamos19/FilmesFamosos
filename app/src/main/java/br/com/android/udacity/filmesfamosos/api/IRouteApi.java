@@ -20,5 +20,8 @@ public interface IRouteApi {
     Call<MoviesReceiver> getAllMoviesPopular(@Query("api_key") String apiKey,
                                           @Query("language") String language);
 
+    //@GET("3/movie/{movie}/videos")
+
+
 
 }
