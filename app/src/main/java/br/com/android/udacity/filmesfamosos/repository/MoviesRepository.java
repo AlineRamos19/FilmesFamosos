@@ -12,7 +12,6 @@ public class MoviesRepository  {
 
     private FavoriteDao mFavoriteDao;
     private LiveData<List<FavoriteModelMovie>> mAllFavorite;
-     private FavoriteModelMovie favoriteMovie;
 
     public MoviesRepository(Application application){
         AppDatabase mDb = AppDatabase.getsInstance(application);
@@ -28,20 +27,18 @@ public class MoviesRepository  {
         new insertAsyncTask(mFavoriteDao).execute(favoriteModelMovie);
     }
 
-    public void deleteFavorite(int id){
-        new deleteAsyncTask(mFavoriteDao).execute(id);
+    public void deleteFavorite(String title){
+       new deleteByTitle(mFavoriteDao).execute(title);
     }
 
-    public FavoriteModelMovie getMovieById(String title){
-          new getIdMovieAsyncTask(mFavoriteDao).execute(title);
-          return favoriteMovie;
-
+    public LiveData<FavoriteModelMovie> getMovieByTitle(String title){
+        return mFavoriteDao.getMovieByTitle(title);
     }
 
     private static class insertAsyncTask extends AsyncTask<FavoriteModelMovie, Void, Void> {
         private FavoriteDao mAsyncTaskDao;
 
-         insertAsyncTask(FavoriteDao mFavoriteDao) {
+        insertAsyncTask(FavoriteDao mFavoriteDao) {
              mAsyncTaskDao = mFavoriteDao;
         }
 
@@ -52,32 +49,17 @@ public class MoviesRepository  {
         }
     }
 
-    private static class deleteAsyncTask extends AsyncTask<Integer,Void, Void>{
 
-        private FavoriteDao mFavoriteDao;
-        public deleteAsyncTask(FavoriteDao favoriteDao) {
-            mFavoriteDao =  favoriteDao;
+    private static class deleteByTitle extends AsyncTask<String, Void, Void> {
+        private FavoriteDao mAsyncTaskDao;
+        deleteByTitle(FavoriteDao mFavoriteDao) {
+            mAsyncTaskDao = mFavoriteDao;
         }
 
         @Override
-        protected Void doInBackground(Integer... integers) {
-            mFavoriteDao.deleteFavoriteMovie(integers[0]);
+        protected Void doInBackground(String... strings) {
+            mAsyncTaskDao.deleteFavoriteMovie(strings[0]);
             return null;
         }
     }
-
-    private  class getIdMovieAsyncTask extends AsyncTask<String, Void, FavoriteModelMovie> {
-        private FavoriteDao mFavoriteDao;
-
-        public getIdMovieAsyncTask(FavoriteDao favoriteDao) {
-            mFavoriteDao = favoriteDao;
-        }
-
-        @Override
-        protected FavoriteModelMovie doInBackground(String... strings) {
-          MoviesRepository.this.favoriteMovie = mFavoriteDao.getMovieById(strings[0]);
-          return favoriteMovie;
-        }
-    }
-
 }

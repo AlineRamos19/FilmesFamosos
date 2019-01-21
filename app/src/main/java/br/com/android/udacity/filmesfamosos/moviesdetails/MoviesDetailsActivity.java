@@ -1,5 +1,6 @@
 package br.com.android.udacity.filmesfamosos.moviesdetails;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
@@ -60,6 +62,11 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView titleToolbar = findViewById(R.id.title_toolbar);
         titleToolbar.setText(R.string.details_movies_title);
+    }
+
+    @Override
+    public void showMessageToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -112,11 +119,13 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
             case R.id.action_favorite:
                 item.setChecked(!item.isChecked());
                 if (item.isChecked()) {
+                    showMessageToast("Adicionado aos favoritos!");
                     getImageSaveNewFavorite();
                     item.setIcon(R.drawable.ic_favorite_selected);
                     return true;
                 } else {
-                    mFavoriteMoviesViewModel.delete(mItemMovie.getId());
+                    showMessageToast("Removido de favoritos");
+                    mFavoriteMoviesViewModel.delete(mItemMovie.getTitle());
                     item.setIcon(R.drawable.ic_favorite);
                     return true;
                 }
@@ -127,12 +136,20 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        MenuItem menuItem = menu.findItem(R.id.action_favorite);
-        if (mFavoriteMoviesViewModel.getMovieById(mItemMovie.getTitle()) != null) {
-            menuItem.setChecked(true);
-            menuItem.setIcon(R.drawable.ic_favorite_selected);
-            return true;
-        }
+        final MenuItem menuItem = menu.findItem(R.id.action_favorite);
+
+        mFavoriteMoviesViewModel.getMovieFavorite(mItemMovie.getTitle()).observe(this,
+                new Observer<FavoriteModelMovie>() {
+                    @Override
+                    public void onChanged(@Nullable FavoriteModelMovie favoriteModelMovie) {
+                        if(favoriteModelMovie != null){
+                        menuItem.setChecked(true);
+                        menuItem.setIcon(R.drawable.ic_favorite_selected);
+
+                    }}
+                });
+
+
         return super.onPrepareOptionsMenu(menu);
     }
 

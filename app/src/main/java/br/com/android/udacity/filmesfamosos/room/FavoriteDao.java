@@ -20,13 +20,13 @@ public interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavoriteMovie(FavoriteModelMovie favoriteMovie);
 
-    @Query("DELETE FROM favorite WHERE id = :id")
-    void deleteFavoriteMovie(int id);
+    @Query("DELETE FROM favorite WHERE title = :title")
+    void deleteFavoriteMovie(String title);
 
     @Query("DELETE FROM favorite")
     void deleteAll();
 
     @Query("SELECT * FROM favorite WHERE title = :title")
-    FavoriteModelMovie getMovieById(String title);
+    LiveData<FavoriteModelMovie> getMovieByTitle(String title);
 
 }

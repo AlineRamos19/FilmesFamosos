@@ -12,4 +12,5 @@ public interface MoviesDetailsView {
     void getImageSaveNewFavorite();
     void saveFavoriteRepository(Bitmap bitmap);
     void configToolbar();
+    void showMessageToast(String message);
 }
