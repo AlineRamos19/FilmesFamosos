@@ -2,7 +2,10 @@ package br.com.android.udacity.filmesfamosos.moviesdetails;
 
 import android.graphics.Bitmap;
 
+import java.util.List;
+
 import br.com.android.udacity.filmesfamosos.models.Result;
+import br.com.android.udacity.filmesfamosos.models.ResultVideo;
 
 public interface MoviesDetailsView {
 
@@ -12,5 +15,11 @@ public interface MoviesDetailsView {
     void getImageSaveNewFavorite();
     void saveFavoriteRepository(Bitmap bitmap);
     void configToolbar();
-    void showMessageToast(String message);
+    void showMessageToast(int message);
+    void getVideo(String id);
+    void setupRecyclerVideo(List<ResultVideo> listVideo);
+    void hideViewVideo();
+    void showViewVideo();
+    void checkInternet();
+
 }

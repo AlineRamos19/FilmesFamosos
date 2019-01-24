@@ -9,7 +9,7 @@ import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.api.ClientRetrofit;
 import br.com.android.udacity.filmesfamosos.models.MoviesReceiver;
 import br.com.android.udacity.filmesfamosos.models.Result;
-import br.com.android.udacity.filmesfamosos.staticvaluesapi.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.DataAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,7 +19,7 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
     private static final String LOG_TAG = AllMoviesPresenter.class.getName();
 
     @Override
-    public boolean statusNetworkInfo(Context context,    AllMoviesView view) {
+    public boolean statusNetworkInfo(Context context, AllMoviesView view) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);

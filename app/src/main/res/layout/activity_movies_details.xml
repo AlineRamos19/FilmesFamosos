@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
@@ -24,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_details_movies"
-        card_view:cardBackgroundColor="@color/background_card_view"
+        card_view:cardBackgroundColor="@color/colorBackgroundCardView"
         card_view:cardCornerRadius="@dimen/minimum_margin_six">
 
         <ScrollView
@@ -118,27 +119,67 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/date_release" />
 
-
-                <TextView
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vote_average"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/view_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start|center"
-                    android:drawablePadding="@dimen/default_medium"
-                    android:text="@string/label_trailer"
                     android:padding="@dimen/medium_margin"
-                    android:drawableStart="@drawable/ic_play"
-                    android:drawableLeft="@drawable/ic_play"
-                    android:layout_marginEnd="@dimen/medium_margin"
-                    android:layout_marginStart="@dimen/medium_margin"
-                    android:layout_marginTop="@dimen/minimum_margin_six"/>
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vote_average">
+
+                    <TextView
+                        android:id="@+id/label_trailer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_medium"
+                        android:text="@string/label_trailer"
+                        android:textSize="@dimen/medium_text"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/error_btn_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_signal_cellular"
+                        android:drawablePadding="@dimen/minimum_margin_six"
+                        android:drawableStart="@drawable/ic_signal_cellular"
+                        android:gravity="center|start"
+                        android:padding="@dimen/default_medium"
+                        android:text="@string/warnning_not_signal"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/label_trailer" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/label_trailer" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        app:layout_constraintTop_toBottomOf="@id/label_trailer"
+                        android:id="@+id/recycler_video"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/medium_margin"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        android:padding="@dimen/medium_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
 
         </ScrollView>
-
 
 
     </android.support.v7.widget.CardView>

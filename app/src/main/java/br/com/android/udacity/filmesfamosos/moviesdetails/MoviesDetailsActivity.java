@@ -7,16 +7,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
@@ -25,20 +29,27 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
+import br.com.android.udacity.filmesfamosos.constant.DataAPI;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.models.Result;
-import br.com.android.udacity.filmesfamosos.staticvaluesapi.DataAPI;
+import br.com.android.udacity.filmesfamosos.models.ResultVideo;
+import br.com.android.udacity.filmesfamosos.moviesdetails.adapter.VideoAdapter;
 import br.com.android.udacity.filmesfamosos.viewmodel.FavoriteMoviesViewModel;
 
 public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDetailsView {
+
+    private VideoPresenter mpresenter = new VideoPresenter(this);
 
     Boolean isCheckedFavorite;
     private static final String LOG_TAG = MoviesDetailsActivity.class.getSimpleName();
     private Result mItemMovie;
     private FavoriteMoviesViewModel mFavoriteMoviesViewModel;
-    private int mMovieId;
+    private ConstraintLayout mViewVideo;
+    private TextView mErrorVideoInternet;
+    private RecyclerView mRecyclerVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +58,23 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
 
         configToolbar();
         checkValueIntent();
+        mViewVideo = findViewById(R.id.view_video);
+        mErrorVideoInternet = findViewById(R.id.error_btn_signal);
+        mRecyclerVideo = findViewById(R.id.recycler_video);
 
         mFavoriteMoviesViewModel = ViewModelProviders.of(this)
                 .get(FavoriteMoviesViewModel.class);
 
+        mErrorVideoInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInternet();
+            }
+        });
+
+        checkInternet();
     }
+
 
     @Override
     public void configToolbar() {
@@ -65,10 +88,45 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     }
 
     @Override
-    public void showMessageToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void showMessageToast(int message) {
+        Snackbar.make(findViewById(R.id.view_details), message, Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void getVideo(String id) {
+        mpresenter.getVideoApi(id);
+    }
+
+    @Override
+    public void setupRecyclerVideo(List<ResultVideo> listVideo) {
+        mRecyclerVideo.setVisibility(View.VISIBLE);
+        mRecyclerVideo.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerVideo.setLayoutManager(layoutManager);
+        mRecyclerVideo.setAdapter(new VideoAdapter(listVideo, this));
+    }
+
+    @Override
+    public void hideViewVideo() {
+        mViewVideo.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showViewVideo() {
+        mViewVideo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void checkInternet() {
+        showViewVideo();
+        mErrorVideoInternet.setVisibility(View.INVISIBLE);
+        if(mpresenter.statusNetworkInfo(this)){
+            getVideo(String.valueOf(mItemMovie.getId()));
+        }else{
+            showViewVideo();
+            mErrorVideoInternet.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void checkValueIntent() {
@@ -88,7 +146,6 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         TextView mOverview = findViewById(R.id.overview);
         TextView mDateRelease = findViewById(R.id.date_release);
         RatingBar mVoteAverage = findViewById(R.id.vote_average);
-        mMovieId = itemMovie.getId();
 
         Glide.with(this).load(DataAPI.URL_BASE_IMAGE + itemMovie.getPosterPath()).into(mImageMovie);
         mTitle.setText(itemMovie.getTitle());
@@ -119,12 +176,12 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
             case R.id.action_favorite:
                 item.setChecked(!item.isChecked());
                 if (item.isChecked()) {
-                    showMessageToast("Adicionado aos favoritos!");
+                    showMessageToast(R.string.favorite_entry);
                     getImageSaveNewFavorite();
                     item.setIcon(R.drawable.ic_favorite_selected);
                     return true;
                 } else {
-                    showMessageToast("Removido de favoritos");
+                    showMessageToast(R.string.delete_favorite);
                     mFavoriteMoviesViewModel.delete(mItemMovie.getTitle());
                     item.setIcon(R.drawable.ic_favorite);
                     return true;

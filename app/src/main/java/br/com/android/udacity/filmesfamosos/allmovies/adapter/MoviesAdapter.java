@@ -13,7 +13,7 @@ import java.util.List;
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.models.Result;
 import br.com.android.udacity.filmesfamosos.moviesdetails.MoviesDetailsActivity;
-import br.com.android.udacity.filmesfamosos.staticvaluesapi.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.DataAPI;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder> {
 
