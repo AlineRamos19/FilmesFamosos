@@ -120,11 +120,11 @@
                     app:layout_constraintTop_toBottomOf="@id/date_release" />
 
                 <android.support.constraint.ConstraintLayout
-                    android:id="@+id/view_video"
+                    android:id="@+id/frame_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/medium_margin"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -177,10 +177,30 @@
                         app:layout_constraintStart_toStartOf="parent" />
                 </android.support.constraint.ConstraintLayout>
 
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"
+                    android:padding="@dimen/medium_margin"
+                    app:layout_constraintTop_toBottomOf="@id/frame_video"
+                    android:id="@+id/frame_reviews">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler_reviews">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </android.support.constraint.ConstraintLayout>
+
+
+
             </android.support.constraint.ConstraintLayout>
 
         </ScrollView>
-
 
     </android.support.v7.widget.CardView>
 

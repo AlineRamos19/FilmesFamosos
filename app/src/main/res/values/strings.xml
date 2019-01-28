@@ -19,6 +19,7 @@
     <string name="label_trailer">Trailer</string>
     <string name="favorite_entry">Adicionado aos favoritos</string>
     <string name="delete_favorite">Removido de favoritos</string>
-    <string name="warnning_not_signal">Off-line Tentar Novamente</string>
+    <string name="warnning_not_signal">Sem internet. Tentar Novamente</string>
+    <string name="error_show_video_api">Erro ao carregar trailer. Tente novamente mais tarde</string>
 
 </resources>

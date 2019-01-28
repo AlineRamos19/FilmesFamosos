@@ -35,21 +35,25 @@ import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.constant.DataAPI;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.models.Result;
+import br.com.android.udacity.filmesfamosos.models.ResultReviews;
 import br.com.android.udacity.filmesfamosos.models.ResultVideo;
+import br.com.android.udacity.filmesfamosos.moviesdetails.adapter.ReviewsAdapter;
 import br.com.android.udacity.filmesfamosos.moviesdetails.adapter.VideoAdapter;
 import br.com.android.udacity.filmesfamosos.viewmodel.FavoriteMoviesViewModel;
 
 public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDetailsView {
 
-    private VideoPresenter mpresenter = new VideoPresenter(this);
+    private MoviesDetailsPresenter mpresenter = new MoviesDetailsPresenter(this);
 
     Boolean isCheckedFavorite;
     private static final String LOG_TAG = MoviesDetailsActivity.class.getSimpleName();
     private Result mItemMovie;
     private FavoriteMoviesViewModel mFavoriteMoviesViewModel;
-    private ConstraintLayout mViewVideo;
+    private ConstraintLayout mFrameVideo;
     private TextView mErrorVideoInternet;
     private RecyclerView mRecyclerVideo;
+    private RecyclerView mRecyclerReviews;
+    private ConstraintLayout mFrameReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +62,11 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
 
         configToolbar();
         checkValueIntent();
-        mViewVideo = findViewById(R.id.view_video);
+        mFrameVideo = findViewById(R.id.frame_video);
         mErrorVideoInternet = findViewById(R.id.error_btn_signal);
         mRecyclerVideo = findViewById(R.id.recycler_video);
+        mRecyclerReviews = findViewById(R.id.recycler_reviews);
+        mFrameReviews = findViewById(R.id.frame_reviews);
 
         mFavoriteMoviesViewModel = ViewModelProviders.of(this)
                 .get(FavoriteMoviesViewModel.class);
@@ -95,6 +101,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     @Override
     public void getVideo(String id) {
         mpresenter.getVideoApi(id);
+        mpresenter.getReviewsApi(id);
     }
 
     @Override
@@ -107,25 +114,44 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
     }
 
     @Override
-    public void hideViewVideo() {
-        mViewVideo.setVisibility(View.INVISIBLE);
+    public void setupRecycerReviews(List<ResultReviews> listReviews) {
+        mRecyclerReviews.setVisibility(View.VISIBLE);
+        mRecyclerReviews.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerReviews.setLayoutManager(layoutManager);
+        mRecyclerReviews.setAdapter(new ReviewsAdapter(listReviews, this));
     }
 
     @Override
-    public void showViewVideo() {
-        mViewVideo.setVisibility(View.VISIBLE);
+    public void hideFrameVideo() {
+        mFrameVideo.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showFrameVideo() {
+        mFrameVideo.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void checkInternet() {
-        showViewVideo();
+
         mErrorVideoInternet.setVisibility(View.INVISIBLE);
         if(mpresenter.statusNetworkInfo(this)){
             getVideo(String.valueOf(mItemMovie.getId()));
         }else{
-            showViewVideo();
+            showFrameVideo();
             mErrorVideoInternet.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void hideFrameReviews() {
+        mFrameReviews.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showFrameReviews() {
+        mFrameReviews.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -2,10 +2,10 @@ package br.com.android.udacity.filmesfamosos.favorite;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -52,6 +52,6 @@ public class FavoriteMovieActivity extends AppCompatActivity implements Favorite
     @Override
     public void configRecycler() {
         recyclerView = findViewById(R.id.recycler_favorite);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }

@@ -42,8 +42,8 @@ public class MovieFavoriteAdapter extends RecyclerView.Adapter<MovieFavoriteAdap
 
             favoriteHolder.imageMovie.setImageBitmap(bitmap);
             favoriteHolder.title.setText(currentMovie.getTitle());
-            favoriteHolder.date.setText(currentMovie.getDateRelease());
-            favoriteHolder.vote.setText(String.valueOf(currentMovie.getVoteAverage()));
+            favoriteHolder.date.setText("Ano de lançamento " + currentMovie.getDateRelease().substring(0,4));
+            favoriteHolder.vote.setText("Nota: " + String.valueOf(currentMovie.getVoteAverage()));
             favoriteHolder.overview.setText(currentMovie.getDescription());
 
         }
@@ -78,7 +78,7 @@ public class MovieFavoriteAdapter extends RecyclerView.Adapter<MovieFavoriteAdap
             title = itemView.findViewById(R.id.title_movie_favorite);
             date = itemView.findViewById(R.id.date_movie_favorite);
             vote = itemView.findViewById(R.id.vote_movie_favorite);
-            overview = itemView.findViewById(R.id.favorite_overview);
+            overview = itemView.findViewById(R.id.overview);
 
         }
     }

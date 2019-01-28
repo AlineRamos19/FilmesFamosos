@@ -9,9 +9,11 @@
     <dimen name="medium_margin">12dp</dimen>
     <dimen name="default_medium">24dp</dimen>
     <dimen name="larger_margin">72dp</dimen>
+
     <dimen name="default_medium_text_size">24sp</dimen>
     <dimen name="large_text">32sp</dimen>
     <dimen name="medium_size">22sp</dimen>
+    <dimen name="small_size">16sp</dimen>
 
 
 </resources>

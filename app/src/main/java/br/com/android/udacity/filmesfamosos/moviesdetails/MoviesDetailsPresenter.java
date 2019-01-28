@@ -9,18 +9,20 @@ import java.util.List;
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.api.ClientRetrofit;
 import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.models.ResultReviews;
 import br.com.android.udacity.filmesfamosos.models.ResultVideo;
+import br.com.android.udacity.filmesfamosos.models.ReviewsReceiver;
 import br.com.android.udacity.filmesfamosos.models.VideoReceiver;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VideoPresenter implements IVideoPresenter {
+public class MoviesDetailsPresenter implements IMoviesDetailsPresenter {
 
     private MoviesDetailsView view;
 
-    public VideoPresenter(MoviesDetailsView view) {
+    public MoviesDetailsPresenter(MoviesDetailsView view) {
         this.view = view;
     }
 
@@ -54,16 +56,41 @@ public class VideoPresenter implements IVideoPresenter {
                 if(response.isSuccessful()){
                     List<ResultVideo> listVideo = response.body().getResults();
                     if(listVideo.size() > 0){
-                        view.showViewVideo();
+                        view.showFrameVideo();
                         view.setupRecyclerVideo(listVideo);
                     }else{
-                        view.hideViewVideo();
+                        view.hideFrameVideo();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<VideoReceiver> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getReviewsApi(String id) {
+        Call<ReviewsReceiver> call = new ClientRetrofit(DataAPI.URL_BASE)
+                .getApiService().getReviews(id, DataAPI.API_KEY);
+        call.enqueue(new Callback<ReviewsReceiver>() {
+            @Override
+            public void onResponse(Call<ReviewsReceiver> call, Response<ReviewsReceiver> response) {
+                if(response.isSuccessful()){
+                    List<ResultReviews> listReviews = response.body().getResults();
+                    if(listReviews.size() > 0){
+                        view.showFrameReviews();
+                        view.setupRecycerReviews(listReviews);
+                    }else{
+                        view.hideFrameReviews();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewsReceiver> call, Throwable t) {
 
             }
         });

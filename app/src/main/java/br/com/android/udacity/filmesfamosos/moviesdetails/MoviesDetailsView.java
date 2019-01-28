@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.models.Result;
+import br.com.android.udacity.filmesfamosos.models.ResultReviews;
 import br.com.android.udacity.filmesfamosos.models.ResultVideo;
 
 public interface MoviesDetailsView {
@@ -18,8 +19,12 @@ public interface MoviesDetailsView {
     void showMessageToast(int message);
     void getVideo(String id);
     void setupRecyclerVideo(List<ResultVideo> listVideo);
-    void hideViewVideo();
-    void showViewVideo();
+    void setupRecycerReviews(List<ResultReviews> listReviews);
+    void hideFrameVideo();
+    void showFrameVideo();
     void checkInternet();
+    void hideFrameReviews();
+    void showFrameReviews();
+
 
 }
