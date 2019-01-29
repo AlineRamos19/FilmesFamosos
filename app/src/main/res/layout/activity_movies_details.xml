@@ -136,6 +136,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/default_medium"
                         android:text="@string/label_trailer"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/medium_text"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -148,54 +150,59 @@
                         android:drawableStart="@drawable/ic_signal_cellular"
                         android:gravity="center|start"
                         android:padding="@dimen/default_medium"
+                        android:fontFamily="sans-serif-light"
                         android:text="@string/warnning_not_signal"
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_trailer" />
 
-                    <ProgressBar
-                        android:id="@+id/progress_video"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/label_trailer" />
-
 
                     <android.support.v7.widget.RecyclerView
-                        app:layout_constraintTop_toBottomOf="@id/label_trailer"
                         android:id="@+id/recycler_video"
-                        android:visibility="invisible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/medium_margin"
                         android:layout_marginTop="@dimen/medium_margin"
                         android:padding="@dimen/medium_margin"
+                        android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/label_trailer" />
                 </android.support.constraint.ConstraintLayout>
 
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/frame_reviews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="gone"
                     android:padding="@dimen/medium_margin"
-                    app:layout_constraintTop_toBottomOf="@id/frame_video"
-                    android:id="@+id/frame_reviews">
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/frame_video">
+
+                    <TextView
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-light"
+                        android:id="@+id/label_reviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_reviews"
+                        android:textSize="@dimen/medium_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <android.support.v7.widget.RecyclerView
+                        android:layout_marginTop="@dimen/medium_margin"
+                        app:layout_constraintTop_toBottomOf="@id/label_reviews"
+                        android:id="@+id/recycler_reviews"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recycler_reviews">
+                        android:layout_height="wrap_content">
 
                     </android.support.v7.widget.RecyclerView>
 
                 </android.support.constraint.ConstraintLayout>
-
 
 
             </android.support.constraint.ConstraintLayout>

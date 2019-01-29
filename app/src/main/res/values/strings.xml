@@ -21,5 +21,6 @@
     <string name="delete_favorite">Removido de favoritos</string>
     <string name="warnning_not_signal">Sem internet. Tentar Novamente</string>
     <string name="error_show_video_api">Erro ao carregar trailer. Tente novamente mais tarde</string>
+    <string name="label_reviews">Comentários</string>
 
 </resources>
