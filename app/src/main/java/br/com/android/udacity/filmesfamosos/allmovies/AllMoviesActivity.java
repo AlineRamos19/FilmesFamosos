@@ -3,6 +3,7 @@ package br.com.android.udacity.filmesfamosos.allmovies;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,14 +24,19 @@ import br.com.android.udacity.filmesfamosos.models.Result;
 
 public class AllMoviesActivity extends AppCompatActivity implements AllMoviesView {
 
+    private static final String LAYOUT_STATE = "LAYOUT_STATE";
     private AllMoviesPresenter mPresenter = new AllMoviesPresenter();
     private FrameLayout mFrameLoading;
     private RecyclerView mRecyclerView;
+    private List<Result> mListResult;
+    private Parcelable mListState;
+    private GridLayoutManager mGridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar_all_movies);
         setSupportActionBar(toolbar);
@@ -40,7 +46,23 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
         mRecyclerView = findViewById(R.id.recycler_all_movies);
         mFrameLoading = findViewById(R.id.frame_progress);
+        configRecyclerView();
         checkConnection();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mListState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(LAYOUT_STATE, mListState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(LAYOUT_STATE));
+        }
     }
 
     @Override
@@ -71,8 +93,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     public void getListMovieReceiver(List<Result> listMovie) {
         hideProgressBar();
         if (listMovie.size() != 0) {
-            configRecyclerView();
-            MoviesAdapter adapter = new MoviesAdapter(listMovie, this);
+            mListResult = listMovie;
+            MoviesAdapter adapter = new MoviesAdapter(mListResult, this);
             mRecyclerView.setAdapter(adapter);
         } else {
             showNotFoundResults();
@@ -82,7 +104,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     @Override
     public void configRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(AllMoviesActivity.this, 2));
+        mGridLayoutManager = new GridLayoutManager(AllMoviesActivity.this, 2);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
     }
 
     @Override
@@ -113,38 +136,38 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         switch (item.getItemId()) {
 
             case R.id.action_up_coming:
-                if(mPresenter.statusNetworkInfo(this, this)){
+                if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
                     mPresenter.requestUpComing(this);
-                }else{
+                } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
 
                 return true;
 
             case R.id.action_top_rated:
-                if(mPresenter.statusNetworkInfo(this, this)){
+                if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
                     mPresenter.requestTopRated(this);
-                }else{
+                } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
 
                 return true;
 
             case R.id.action_most_popular:
-                if(mPresenter.statusNetworkInfo(this, this)){
+                if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
-                   mPresenter.requestMostPopular(this);
-                }else{
+                    mPresenter.requestMostPopular(this);
+                } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
                 return true;
 
             case R.id.action_favorite:
-                if(mPresenter.statusNetworkInfo(this, this)){
+                if (mPresenter.statusNetworkInfo(this, this)) {
                     startActivity(new Intent(AllMoviesActivity.this, FavoriteMovieActivity.class));
-                }else{
+                } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
                 return true;
@@ -154,4 +177,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
         }
     }
+
 }
+
+
+
