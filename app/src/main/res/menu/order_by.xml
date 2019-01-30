@@ -18,13 +18,13 @@
             <item
                 android:id="@+id/action_most_popular"
                 android:icon="@drawable/ic_most_popular"
-                android:title="@string/most_popular"
+                android:title="@string/label_most_popular"
                 app:showAsAction="always|withText" />
 
             <item
                 android:id="@+id/action_top_rated"
                 android:icon="@drawable/ic_top_rated"
-                android:title="@string/top_rated"
+                android:title="@string/label_top_rated"
                 app:showAsAction="always|withText" />
 
             <item

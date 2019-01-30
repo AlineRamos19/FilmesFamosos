@@ -7,14 +7,13 @@
     <string name="btn_order_by">Ordenar</string>
     <string name="warning_empty_list_movie">Erro ao carregar a lista de filmes, tente novamente mais tarde.</string>
     <string name="label_up_coming">Lançamentos</string>
-    <string name="top_rated">Melhor classificação</string>
-    <string name="most_popular">Mais popular</string>
+    <string name="label_top_rated">Melhor classificação</string>
+    <string name="label_most_popular">Mais popular</string>
     <string name="release_movie">Lançamento </string>
     <string name="content_description_movie">Image movie</string>
     <string name="details_movies_title">Detalhes do filme</string>
     <string name="loading_label">Carregando...</string>
-    <string name="label_favorite">Favorito</string>
-    <string name="toolbar_favorite">Favoritos</string>
+    <string name="label_favorite">Favoritos</string>
     <string name="content_description_favorite_movie">Image for favorite movie</string>
     <string name="label_trailer">Trailer</string>
     <string name="favorite_entry">Adicionado aos favoritos</string>

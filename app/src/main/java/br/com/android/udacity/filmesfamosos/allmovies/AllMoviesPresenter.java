@@ -4,12 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import java.util.List;
+
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.api.ClientRetrofit;
-import br.com.android.udacity.filmesfamosos.models.MoviesReceiver;
-import br.com.android.udacity.filmesfamosos.models.Result;
 import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.models.MoviesReceiver;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,9 +47,7 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
                 public void onResponse(Call<MoviesReceiver> call,
                                        Response<MoviesReceiver> response) {
                     if (response.isSuccessful()) {
-                        List<br.com.android.udacity.filmesfamosos.models.Result> dataList =
-                                response.body().getResults();
-                        view.getListMovieReceiver(dataList);
+                        view.getListMovieReceiver(response.body().getResults());
                     }
                 }
 
@@ -76,8 +73,7 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
                     if (response.isSuccessful()) {
-                        List<Result> result = response.body().getResults();
-                        view.getListMovieReceiver(result);
+                        view.getListMovieReceiver(response.body().getResults());
                     }
                 }
 
@@ -104,9 +100,8 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
                     if (response.isSuccessful()) {
-                        List<Result> data =
-                                response.body().getResults();
-                        view.getListMovieReceiver(data);
+
+                        view.getListMovieReceiver(response.body().getResults());
                     }
                 }
 

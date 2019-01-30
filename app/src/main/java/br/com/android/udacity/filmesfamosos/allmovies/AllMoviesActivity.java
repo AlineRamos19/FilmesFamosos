@@ -1,12 +1,15 @@
 package br.com.android.udacity.filmesfamosos.allmovies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,8 +22,10 @@ import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.allmovies.adapter.MoviesAdapter;
-import br.com.android.udacity.filmesfamosos.favorite.FavoriteMovieActivity;
+import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
+import br.com.android.udacity.filmesfamosos.favorite.adapter.MovieFavoriteAdapter;
 import br.com.android.udacity.filmesfamosos.models.Result;
+import br.com.android.udacity.filmesfamosos.viewmodel.FavoriteMoviesViewModel;
 
 public class AllMoviesActivity extends AppCompatActivity implements AllMoviesView {
 
@@ -31,6 +36,10 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     private List<Result> mListResult;
     private Parcelable mListState;
     private GridLayoutManager mGridLayoutManager;
+    private MoviesAdapter mAdapter;
+    private FavoriteMoviesViewModel mViewModel;
+    private MovieFavoriteAdapter adapter;
+    private TextView mTitleTypeMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView titleToolbar = findViewById(R.id.title_toolbar);
         titleToolbar.setText(R.string.app_name);
+        mTitleTypeMovie = findViewById(R.id.label_type_movies);
 
         mRecyclerView = findViewById(R.id.recycler_all_movies);
         mFrameLoading = findViewById(R.id.frame_progress);
@@ -55,6 +65,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         super.onSaveInstanceState(outState);
         mListState = mRecyclerView.getLayoutManager().onSaveInstanceState();
         outState.putParcelable(LAYOUT_STATE, mListState);
+
     }
 
     @Override
@@ -94,8 +105,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         hideProgressBar();
         if (listMovie.size() != 0) {
             mListResult = listMovie;
-            MoviesAdapter adapter = new MoviesAdapter(mListResult, this);
-            mRecyclerView.setAdapter(adapter);
+            mAdapter = new MoviesAdapter(mListResult, this);
+            mRecyclerView.setAdapter(mAdapter);
         } else {
             showNotFoundResults();
         }
@@ -124,6 +135,21 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         emptyResult.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void initFavoriteView() {
+        adapter = new MovieFavoriteAdapter(this);
+
+        mViewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel.class);
+        mViewModel.getMoviesFavorite().observe(this, new Observer<List<FavoriteModelMovie>>() {
+            @Override
+            public void onChanged(@Nullable List<FavoriteModelMovie> favoriteModelMovies) {
+                adapter.setListMovie(favoriteModelMovies);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(AllMoviesActivity.this));
+                mRecyclerView.setAdapter(adapter);
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,6 +164,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
             case R.id.action_up_coming:
                 if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
+                    configRecyclerView();
+                    mTitleTypeMovie.setText(R.string.label_up_coming);
                     mPresenter.requestUpComing(this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
@@ -148,6 +176,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
             case R.id.action_top_rated:
                 if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
+                    configRecyclerView();
+                    mTitleTypeMovie.setText(R.string.label_top_rated);
                     mPresenter.requestTopRated(this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
@@ -158,6 +188,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
             case R.id.action_most_popular:
                 if (mPresenter.statusNetworkInfo(this, this)) {
                     showProgressBar();
+                    configRecyclerView();
+                    mTitleTypeMovie.setText(R.string.label_most_popular);
                     mPresenter.requestMostPopular(this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
@@ -166,7 +198,8 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
             case R.id.action_favorite:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    startActivity(new Intent(AllMoviesActivity.this, FavoriteMovieActivity.class));
+                    mTitleTypeMovie.setText(R.string.label_favorite);
+                    initFavoriteView();
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }

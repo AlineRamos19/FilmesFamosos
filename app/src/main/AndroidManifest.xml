@@ -30,12 +30,5 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".allmovies.AllMoviesActivity" />
         </activity>
-        <activity android:name=".favorite.FavoriteMovieActivity"
-            android:parentActivityName=".moviesdetails.MoviesDetailsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".moviesdetails.MoviesDetailsActivity"/>
-
-        </activity>
     </application>
 </manifest>

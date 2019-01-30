@@ -173,5 +173,6 @@ public class Result  implements Serializable{
         this.releaseDate = releaseDate;
     }
 
+
 }
 
