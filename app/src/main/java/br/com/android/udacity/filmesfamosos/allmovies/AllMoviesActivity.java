@@ -11,10 +11,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
     private static final String LAYOUT_STATE = "LAYOUT_STATE";
     private AllMoviesPresenter mPresenter = new AllMoviesPresenter();
-    private FrameLayout mFrameLoading;
+    private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
     private MoviesAdapter mAdapter;
@@ -46,7 +47,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
         initToolbar();
         mRecyclerView = findViewById(R.id.recycler_all_movies);
-        mFrameLoading = findViewById(R.id.frame_progress);
+        mProgressBar = findViewById(R.id.progressBar);
         configRecyclerView();
         checkConnection();
     }
@@ -64,6 +65,15 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         if (savedInstanceState != null) {
             mGridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(LAYOUT_STATE));
         }
+    }
+
+    private int calculateColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 400;
+        int numberColumns = displayMetrics.widthPixels / widthDivider;
+        if (numberColumns < 2) return 2;
+        return numberColumns;
     }
 
     @Override
@@ -104,18 +114,18 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     @Override
     public void configRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
-        mGridLayoutManager = new GridLayoutManager(AllMoviesActivity.this, 2);
+        mGridLayoutManager = new GridLayoutManager(AllMoviesActivity.this, calculateColumns());
         mRecyclerView.setLayoutManager(mGridLayoutManager);
     }
 
     @Override
     public void hideProgressBar() {
-        mFrameLoading.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showProgressBar() {
-        mFrameLoading.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -160,20 +170,18 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
             case R.id.action_up_coming:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    setUpNewScreen(ConstData.URL_UP_COMING, R.string.label_up_coming );
+                    setUpNewScreen(ConstData.URL_UP_COMING, R.string.label_up_coming);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
-
                 return true;
 
             case R.id.action_top_rated:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    setUpNewScreen(ConstData.URL_TOP_RATED, R.string.label_top_rated );
+                    setUpNewScreen(ConstData.URL_TOP_RATED, R.string.label_top_rated);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
-
                 return true;
 
             case R.id.action_most_popular:
@@ -199,12 +207,13 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         }
     }
 
-    void setUpNewScreen(String url, int labelType){
+    void setUpNewScreen(String url, int labelType) {
         showProgressBar();
         configRecyclerView();
         mTitleTypeMovie.setText(labelType);
         mPresenter.requestMovie(url, this);
     }
+
 
 }
 
