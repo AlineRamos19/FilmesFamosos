@@ -13,7 +13,7 @@ import java.util.List;
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.models.Result;
 import br.com.android.udacity.filmesfamosos.moviesdetails.MoviesDetailsActivity;
-import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder> {
 
@@ -35,7 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     @Override
     public void onBindViewHolder(@NonNull final MovieHolder holder, int position) {
         final Result movie = mListMovies.get(position);
-        String pathImage = DataAPI.URL_BASE_IMAGE + movie.getPosterPath();
+        String pathImage = ConstData.URL_BASE_IMAGE + movie.getPosterPath();
 
         if(!pathImage.isEmpty()){
             Glide.with(mContext).load(pathImage).into(holder.imageMovie);

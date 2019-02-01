@@ -8,7 +8,7 @@ import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.api.ClientRetrofit;
-import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 import br.com.android.udacity.filmesfamosos.models.ResultReviews;
 import br.com.android.udacity.filmesfamosos.models.ResultVideo;
 import br.com.android.udacity.filmesfamosos.models.ReviewsReceiver;
@@ -47,9 +47,9 @@ public class MoviesDetailsPresenter implements IMoviesDetailsPresenter {
 
     @Override
     public void getVideoApi(String id) {
-        Call<VideoReceiver> call = new ClientRetrofit(DataAPI.URL_BASE)
+        Call<VideoReceiver> call = new ClientRetrofit(ConstData.URL_BASE)
                 .getApiService()
-                .getTrailer(id, DataAPI.API_KEY, DataAPI.LANGUAGE_DEFAULT);
+                .getTrailer(id, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
         call.enqueue(new Callback<VideoReceiver>() {
             @Override
             public void onResponse(Call<VideoReceiver> call, Response<VideoReceiver> response) {
@@ -73,8 +73,8 @@ public class MoviesDetailsPresenter implements IMoviesDetailsPresenter {
 
     @Override
     public void getReviewsApi(String id) {
-        Call<ReviewsReceiver> call = new ClientRetrofit(DataAPI.URL_BASE)
-                .getApiService().getReviews(id, DataAPI.API_KEY);
+        Call<ReviewsReceiver> call = new ClientRetrofit(ConstData.URL_BASE)
+                .getApiService().getReviews(id, ConstData.API_KEY);
         call.enqueue(new Callback<ReviewsReceiver>() {
             @Override
             public void onResponse(Call<ReviewsReceiver> call, Response<ReviewsReceiver> response) {

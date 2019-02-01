@@ -15,6 +15,7 @@ public interface AllMoviesView {
     void showProgressBar();
     void showNotFoundResults();
     void initFavoriteView();
+    void initToolbar();
 
 
 }

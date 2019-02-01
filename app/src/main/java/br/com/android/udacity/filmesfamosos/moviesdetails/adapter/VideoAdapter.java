@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
-import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 import br.com.android.udacity.filmesfamosos.models.ResultVideo;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
@@ -53,7 +53,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     private void playVideo(String key) {
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + key));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(DataAPI.URL_YOUTUBE + key));
+                Uri.parse(ConstData.URL_YOUTUBE + key));
         try {
             mContext.startActivity(appIntent);
         } catch (ActivityNotFoundException ex) {

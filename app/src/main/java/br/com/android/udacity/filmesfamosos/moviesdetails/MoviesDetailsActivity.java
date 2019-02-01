@@ -32,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
-import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.models.Result;
 import br.com.android.udacity.filmesfamosos.models.ResultReviews;
@@ -173,7 +173,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
         TextView mDateRelease = findViewById(R.id.date_release);
         RatingBar mVoteAverage = findViewById(R.id.vote_average);
 
-        Glide.with(this).load(DataAPI.URL_BASE_IMAGE + itemMovie.getPosterPath()).into(mImageMovie);
+        Glide.with(this).load(ConstData.URL_BASE_IMAGE + itemMovie.getPosterPath()).into(mImageMovie);
         mTitle.setText(itemMovie.getTitle());
         mOverview.setText(itemMovie.getOverview());
         mDateRelease.setText(configSubstringDate(itemMovie.getReleaseDate()));
@@ -241,7 +241,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements MoviesDe
 
         Glide.with(MoviesDetailsActivity.this)
                 .asBitmap()
-                .load(DataAPI.URL_BASE_IMAGE + mItemMovie.getPosterPath())
+                .load(ConstData.URL_BASE_IMAGE + mItemMovie.getPosterPath())
                 .into(new Target<Bitmap>() {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {

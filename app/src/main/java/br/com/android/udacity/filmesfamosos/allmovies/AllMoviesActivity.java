@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,27 +32,18 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     private AllMoviesPresenter mPresenter = new AllMoviesPresenter();
     private FrameLayout mFrameLoading;
     private RecyclerView mRecyclerView;
-    private List<Result> mListResult;
-    private Parcelable mListState;
     private GridLayoutManager mGridLayoutManager;
     private MoviesAdapter mAdapter;
-    private FavoriteMoviesViewModel mViewModel;
     private MovieFavoriteAdapter adapter;
     private TextView mTitleTypeMovie;
+    private String stateType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar_all_movies);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        TextView titleToolbar = findViewById(R.id.title_toolbar);
-        titleToolbar.setText(R.string.app_name);
-        mTitleTypeMovie = findViewById(R.id.label_type_movies);
-
+        initToolbar();
         mRecyclerView = findViewById(R.id.recycler_all_movies);
         mFrameLoading = findViewById(R.id.frame_progress);
         configRecyclerView();
@@ -63,10 +53,9 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mListState = mRecyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(LAYOUT_STATE, mListState);
-
+        outState.putParcelable(LAYOUT_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -104,8 +93,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     public void getListMovieReceiver(List<Result> listMovie) {
         hideProgressBar();
         if (listMovie.size() != 0) {
-            mListResult = listMovie;
-            mAdapter = new MoviesAdapter(mListResult, this);
+            mAdapter = new MoviesAdapter(listMovie, this);
             mRecyclerView.setAdapter(mAdapter);
         } else {
             showNotFoundResults();
@@ -138,8 +126,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     @Override
     public void initFavoriteView() {
         adapter = new MovieFavoriteAdapter(this);
-
-        mViewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel.class);
+        FavoriteMoviesViewModel mViewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel.class);
         mViewModel.getMoviesFavorite().observe(this, new Observer<List<FavoriteModelMovie>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteModelMovie> favoriteModelMovies) {
@@ -150,6 +137,15 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
         });
     }
 
+    @Override
+    public void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_all_movies);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        TextView titleToolbar = findViewById(R.id.title_toolbar);
+        titleToolbar.setText(R.string.app_name);
+        mTitleTypeMovie = findViewById(R.id.label_type_movies);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

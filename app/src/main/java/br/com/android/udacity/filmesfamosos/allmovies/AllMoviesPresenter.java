@@ -7,7 +7,7 @@ import android.util.Log;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.api.ClientRetrofit;
-import br.com.android.udacity.filmesfamosos.constant.DataAPI;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 import br.com.android.udacity.filmesfamosos.models.MoviesReceiver;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +40,8 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
     public void requestUpComing(final AllMoviesView view) {
 
         try {
-            Call<MoviesReceiver> call = new ClientRetrofit(DataAPI.URL_BASE).getApiService()
-                    .getAllMoviesComing(DataAPI.API_KEY, DataAPI.LANGUAGE_DEFAULT);
+            Call<MoviesReceiver> call = new ClientRetrofit(ConstData.URL_BASE).getApiService()
+                    .getAllMovies(ConstData.URL_UP_COMING, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
             call.enqueue(new Callback<MoviesReceiver>() {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call,
@@ -67,8 +67,8 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
 
     public void requestTopRated(final AllMoviesView view) {
         try {
-            Call<MoviesReceiver> call = new ClientRetrofit(DataAPI.URL_BASE).getApiService()
-                    .getAllMoviesTopRated(DataAPI.API_KEY, DataAPI.LANGUAGE_DEFAULT);
+            Call<MoviesReceiver> call = new ClientRetrofit(ConstData.URL_BASE).getApiService()
+                    .getAllMovies(ConstData.URL_TOP_RATED, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
             call.enqueue(new Callback<MoviesReceiver>() {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
@@ -94,8 +94,8 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
     public void requestMostPopular(final AllMoviesView view) {
         try {
             Call<MoviesReceiver> call =
-                    new ClientRetrofit(DataAPI.URL_BASE).getApiService()
-                            .getAllMoviesPopular(DataAPI.API_KEY, DataAPI.LANGUAGE_DEFAULT);
+                    new ClientRetrofit(ConstData.URL_BASE).getApiService()
+                            .getAllMovies(ConstData.URL_POPULAR, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
             call.enqueue(new Callback<MoviesReceiver>() {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
