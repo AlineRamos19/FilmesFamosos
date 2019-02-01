@@ -37,7 +37,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     private MoviesAdapter mAdapter;
     private MovieFavoriteAdapter adapter;
     private TextView mTitleTypeMovie;
-    private String stateType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +160,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
             case R.id.action_up_coming:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    showProgressBar();
-                    configRecyclerView();
-                    mTitleTypeMovie.setText(R.string.label_up_coming);
-                    mPresenter.requestMovie(ConstData.URL_UP_COMING, this);
+                    setUpNewScreen(ConstData.URL_UP_COMING, R.string.label_up_coming );
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
@@ -172,10 +169,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
             case R.id.action_top_rated:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    showProgressBar();
-                    configRecyclerView();
-                    mTitleTypeMovie.setText(R.string.label_top_rated);
-                    mPresenter.requestMovie(ConstData.URL_TOP_RATED, this);
+                    setUpNewScreen(ConstData.URL_TOP_RATED, R.string.label_top_rated );
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
@@ -184,10 +178,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
 
             case R.id.action_most_popular:
                 if (mPresenter.statusNetworkInfo(this, this)) {
-                    showProgressBar();
-                    configRecyclerView();
-                    mTitleTypeMovie.setText(R.string.label_most_popular);
-                    mPresenter.requestMovie(ConstData.URL_POPULAR, this);
+                    setUpNewScreen(ConstData.URL_POPULAR, R.string.label_most_popular);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
@@ -206,6 +197,13 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    void setUpNewScreen(String url, int labelType){
+        showProgressBar();
+        configRecyclerView();
+        mTitleTypeMovie.setText(labelType);
+        mPresenter.requestMovie(url, this);
     }
 
 }
