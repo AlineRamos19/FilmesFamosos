@@ -16,9 +16,11 @@ import retrofit2.Response;
 public class AllMoviesPresenter implements IAllMoviesPresenter {
 
     private static final String LOG_TAG = AllMoviesPresenter.class.getName();
+    private Context mContext;
 
     @Override
     public boolean statusNetworkInfo(Context context, AllMoviesView view) {
+        mContext = context;
 
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -37,77 +39,21 @@ public class AllMoviesPresenter implements IAllMoviesPresenter {
     }
 
     @Override
-    public void requestUpComing(final AllMoviesView view) {
-
-        try {
-            Call<MoviesReceiver> call = new ClientRetrofit(ConstData.URL_BASE).getApiService()
-                    .getAllMovies(ConstData.URL_UP_COMING, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
-            call.enqueue(new Callback<MoviesReceiver>() {
-                @Override
-                public void onResponse(Call<MoviesReceiver> call,
-                                       Response<MoviesReceiver> response) {
-                    if (response.isSuccessful()) {
-                        view.getListMovieReceiver(response.body().getResults());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MoviesReceiver> call, Throwable t) {
-                    Log.e(LOG_TAG, "--ERROR-- " + t.getMessage());
-                }
-            });
-
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "--ERROR-- " + e.getMessage());
-        }
-
-
-    }
-
-
-    public void requestTopRated(final AllMoviesView view) {
-        try {
-            Call<MoviesReceiver> call = new ClientRetrofit(ConstData.URL_BASE).getApiService()
-                    .getAllMovies(ConstData.URL_TOP_RATED, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
-            call.enqueue(new Callback<MoviesReceiver>() {
-                @Override
-                public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
-                    if (response.isSuccessful()) {
-                        view.getListMovieReceiver(response.body().getResults());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MoviesReceiver> call, Throwable t) {
-                    Log.e(LOG_TAG, "--ERROR-- " + t.getMessage());
-                }
-            });
-
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "--ERROR-- " + e.getMessage());
-        }
-
-
-    }
-
-    @Override
-    public void requestMostPopular(final AllMoviesView view) {
+    public void requestMovie(String url, final AllMoviesView view) {
         try {
             Call<MoviesReceiver> call =
                     new ClientRetrofit(ConstData.URL_BASE).getApiService()
-                            .getAllMovies(ConstData.URL_POPULAR, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
+                            .getAllMovies(url, ConstData.API_KEY, ConstData.LANGUAGE_DEFAULT);
             call.enqueue(new Callback<MoviesReceiver>() {
                 @Override
                 public void onResponse(Call<MoviesReceiver> call, Response<MoviesReceiver> response) {
                     if (response.isSuccessful()) {
-
                         view.getListMovieReceiver(response.body().getResults());
                     }
                 }
-
                 @Override
                 public void onFailure(Call<MoviesReceiver> call, Throwable t) {
-
+                    view.showAlert(mContext.getResources().getString(R.string.error_server));
                 }
             });
 

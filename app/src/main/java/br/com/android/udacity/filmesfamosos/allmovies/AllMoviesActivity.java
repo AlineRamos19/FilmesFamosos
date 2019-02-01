@@ -21,6 +21,7 @@ import java.util.List;
 
 import br.com.android.udacity.filmesfamosos.R;
 import br.com.android.udacity.filmesfamosos.allmovies.adapter.MoviesAdapter;
+import br.com.android.udacity.filmesfamosos.constant.ConstData;
 import br.com.android.udacity.filmesfamosos.favorite.FavoriteModelMovie;
 import br.com.android.udacity.filmesfamosos.favorite.adapter.MovieFavoriteAdapter;
 import br.com.android.udacity.filmesfamosos.models.Result;
@@ -82,7 +83,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
     public void checkConnection() {
         if (mPresenter.statusNetworkInfo(this, this)) {
             showProgressBar();
-            mPresenter.requestUpComing(this);
+            mPresenter.requestMovie(ConstData.URL_UP_COMING, this);
         } else {
             showAlert(getString(R.string.error_internet_off));
         }
@@ -162,7 +163,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
                     showProgressBar();
                     configRecyclerView();
                     mTitleTypeMovie.setText(R.string.label_up_coming);
-                    mPresenter.requestUpComing(this);
+                    mPresenter.requestMovie(ConstData.URL_UP_COMING, this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
@@ -174,7 +175,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
                     showProgressBar();
                     configRecyclerView();
                     mTitleTypeMovie.setText(R.string.label_top_rated);
-                    mPresenter.requestTopRated(this);
+                    mPresenter.requestMovie(ConstData.URL_TOP_RATED, this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
@@ -186,7 +187,7 @@ public class AllMoviesActivity extends AppCompatActivity implements AllMoviesVie
                     showProgressBar();
                     configRecyclerView();
                     mTitleTypeMovie.setText(R.string.label_most_popular);
-                    mPresenter.requestMostPopular(this);
+                    mPresenter.requestMovie(ConstData.URL_POPULAR, this);
                 } else {
                     showAlert(getString(R.string.error_internet_off));
                 }
